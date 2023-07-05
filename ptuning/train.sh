@@ -7,7 +7,7 @@ CUDA_VISIBLE_DEVICES=0 python3 main.py \
     --validation_file AdvertiseGen/dev.json \
     --prompt_column content \
     --response_column summary \
-    --overwrite_cache \
+    --overwrite_cache \   #如果debug可以直接删除，可以节省时间，不重新把文本加载成向量
     --model_name_or_path THUDM/chatglm-6b \
     --output_dir output/adgen-chatglm-6b-pt-$PRE_SEQ_LEN-$LR \
     --overwrite_output_dir \
@@ -15,12 +15,12 @@ CUDA_VISIBLE_DEVICES=0 python3 main.py \
     --max_target_length 64 \
     --per_device_train_batch_size 1 \
     --per_device_eval_batch_size 1 \
-    --gradient_accumulation_steps 16 \
+    --gradient_accumulation_steps 16 \  #上面这个train_batch_size 太小了，不容易收敛，这边做梯度累加
     --predict_with_generate \
     --max_steps 3000 \
     --logging_steps 10 \
     --save_steps 1000 \
     --learning_rate $LR \
     --pre_seq_len $PRE_SEQ_LEN \
-    --quantization_bit 4
+    --quantization_bit 4        #删除就会变成 fp16 训练可以变的很快
 
